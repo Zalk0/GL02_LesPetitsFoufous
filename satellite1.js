@@ -1,4 +1,4 @@
-var Satellite1 = {
+let Satellite1 = {
     check: function () {
         console.log("Satellite1 Ready !")
         return true
