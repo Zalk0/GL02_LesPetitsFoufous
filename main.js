@@ -1,4 +1,9 @@
-const Engine = require('./engine.js');
+const Engine = require('./engine.js')
+const Radio = require('./radio.js')
+const Command = require('./command.js')
+const Satellite1 = require('./satellite1.js')
 
-// Call the check function from the Engine module
-Engine.check();
+Satellite1.check()
+Command.check()
+Radio.check()
+Engine.check()
