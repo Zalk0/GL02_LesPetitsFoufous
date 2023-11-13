@@ -3,6 +3,7 @@ let unsafeRequire = require("./utils/unsafeRequire.js");
 
 let stub = {
     check: function () {
+		console.log("Blue level checked".blue)
         return false;
     }
 };
