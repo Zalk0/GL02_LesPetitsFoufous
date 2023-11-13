@@ -3,6 +3,7 @@ let Satellite1 = {
         console.log("Blue level checked".blue)
         console.log("Magenta level checked".magenta)
         console.log("Satellite1 Ready !")
+        console.log("Cyan level checked".cyan)
         return true
     }
 }
