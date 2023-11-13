@@ -128,5 +128,6 @@ dist
 .yarn/install-state.gz
 .pnp.*
 
-# Jetbrains IDE
+# IDE
 .idea/
+.vscode/
