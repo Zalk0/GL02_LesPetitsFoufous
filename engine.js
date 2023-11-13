@@ -1,11 +1,7 @@
-<<<<<<< HEAD
-var Engine = {
-    check: function(){
-        console.log("Magenta level checked".magenta)
-=======
 let Engine = {
     check: function () {
->>>>>>> Bleu
+        console.log("Blue level checked".blue)
+        console.log("Magenta level checked".magenta)
         console.log("Engine Ready !")
         return true
     }
