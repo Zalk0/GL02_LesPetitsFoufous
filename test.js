@@ -4,6 +4,7 @@ console.log('Random Quote of the Day');
 
 function Manger() {
     console.log('Bill Gates');
+    console.log("Cyan level checked".cyan)
 }
 
 Manger();
