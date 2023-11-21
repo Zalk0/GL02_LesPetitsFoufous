@@ -10,7 +10,7 @@ function parseData(data) {
 
     for (let i = 0; i < lines.length; i++) {
         const line = lines[i].trim();
-        if (line.startsWith("Page")){
+        if (line.startsWith("Page")) {
             break;
         }
         if (line.startsWith("+") && line !== "+UVUV") {
@@ -59,8 +59,7 @@ const sujetADataPath = path.join(__dirname, 'sujetA_data');
 
 function processFile(filePath) {
     const fileContent = fs.readFileSync(filePath, 'utf8');
-    const creneau = parseData(fileContent);
-    return creneau;
+    return parseData(fileContent);
 }
 
 function processFolder(folderPath) {
@@ -80,6 +79,7 @@ function processFolder(folderPath) {
     }
     return creneau;
 }
+
 let listObj = processFolder(sujetADataPath);
 
 console.log(listObj);
