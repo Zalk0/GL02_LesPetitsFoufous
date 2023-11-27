@@ -1,6 +1,6 @@
 const fs = require('fs');
 const colors = require('colors');
-//const DataParser = require('./utils/DataParser.js');
+const DataParser = require('./utils/DataParser.js');
 const findSalles = require('./commands/findSalles');
 const capaciteMax = require("./commands/capaciteMax");
 
