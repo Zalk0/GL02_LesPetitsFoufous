@@ -1,10 +1,8 @@
-const DataParser = require('../utils/DataParser');
 
-let capaciteMax = (salle) => {
-    console.log(`capaciteMax(${salle})`);
-    console.log(DataParser);
+let capaciteMax = (creneaux, salle) => {
+    console.log(creneaux);
+    console.log(salle);
     // TODO
-
 }
 
 module.exports = capaciteMax;
