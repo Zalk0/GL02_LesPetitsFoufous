@@ -1,16 +1,15 @@
 const fs = require('fs');
 const colors = require('colors');
-const DataParser = require('./utils/DataParser.js');
+const cli = require("@caporal/core").default;
+
+const CreneauParser = require('./utils/CreneauParser.js');
+
 const findSalles = require('./commands/findSalles');
 const capaciteMax = require("./commands/capaciteMax");
-
-
-const cli = require("@caporal/core").default;
 
 cli
     .version('lespetitsfoufous-sujet-a')
     .version('1.0.0')
-
 
     // readme
     .command('readme', 'Display the README.txt file')
@@ -20,23 +19,34 @@ cli
             if (err) {
                 return logger.warn(err);
             }
-            logger.info(data);
+            console.log(data);
         });
     })
 
 
     // SPEC1
     .command('find-salles', 'Trouver les salles associées à un cours')
+    .argument('<chemin>', 'Chemin du fichier ou du dossier contenant les créneaux')
     .argument('<cours>', 'Le cours à rechercher')
     .action(({args, options, logger}) => {
-        findSalles(args.cours, args.file);
+        let parser = new CreneauParser();
+        parser.parse(args.chemin);
+
+        if (!parser.noErrors) {
+            logger.info("The path contains error".red);
+            return
+        }
+
+        let listeSalles = findSalles(parser.parsedCreneaux, args.cours);
+        console.log(Array.from(listeSalles).join(", "));
     })
 
     // SPEC2
     .command('capacite-max', 'Capacité max d\'une salle')
+    .argument('<chemin>', 'Chemin du fichier ou du dossier contenant les créneaux')
     .argument('<salle>', 'La salle à rechercher')
     .action(({args, options, logger}) => {
-        capaciteMax(args.salle, args.file);
+        capaciteMax(args.salle);
     })
 
     // SPEC3
