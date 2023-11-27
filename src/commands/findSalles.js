@@ -1,6 +1,11 @@
-let findSalles = (cours) => {
+const DataParser = require('../utils/DataParser.js');
+const EnsembleCreneau = require('../utils/EnsembleCreneaux.js');
+const Creneau = require('../utils/Creneau.js');
+
+let findSalles = (cours, file) => {
     console.log(`findSalles(${cours})`);
-    // TODO
+    let creneaux = new EnsembleCreneau();
+    console.log(DataParser);
 
 }
 
