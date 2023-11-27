@@ -54,7 +54,7 @@ function parseData(data) {
 1,C1,P=62,H=ME 12:00-16:00,F1,S=B101//
 1,D1,P=64,H=ME 16:00-20:00,F1,S=B101//`;*/
 
-const sujetADataPath = path.join(__dirname, 'sujetA_data');
+const sujetADataPath = path.join(__dirname, './../../SujetA_data');
 
 
 function processFile(filePath) {
