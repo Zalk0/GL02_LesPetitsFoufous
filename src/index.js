@@ -29,14 +29,14 @@ cli
     .command('find-salles', 'Trouver les salles associées à un cours')
     .argument('<cours>', 'Le cours à rechercher')
     .action(({args, options, logger}) => {
-        findSalles(args.cours);
+        findSalles(args.cours, args.file);
     })
 
     // SPEC2
     .command('capacite-max', 'Capacité max d\'une salle')
     .argument('<salle>', 'La salle à rechercher')
     .action(({args, options, logger}) => {
-        capaciteMax(args.salle);
+        capaciteMax(args.salle, args.file);
     })
 
     // SPEC3

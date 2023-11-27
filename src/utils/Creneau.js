@@ -1,5 +1,5 @@
 class Creneau {
-    constructor(ue, type, horaire, nbPlaces, salle, indexSousGroupe) {
+    constructor(ue, type, indexSousGroupe, horaire,salle, nbPlaces) {
         this.ue = ue;
         this.type = type;
         this.indexSousGroupe = indexSousGroupe;
