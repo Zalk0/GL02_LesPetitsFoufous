@@ -80,6 +80,4 @@ function processFolder(folderPath) {
     return creneau;
 }
 
-let listObj = processFolder(sujetADataPath);
-
-console.log(listObj);
+module.exports = processFolder(sujetADataPath);
