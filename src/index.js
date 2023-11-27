@@ -46,7 +46,17 @@ cli
     .argument('<chemin>', 'Chemin du fichier ou du dossier contenant les créneaux')
     .argument('<salle>', 'La salle à rechercher')
     .action(({args, options, logger}) => {
-        capaciteMax(args.salle);
+        let parser = new CreneauParser();
+        parser.parse(args.chemin);
+
+        if (!parser.noErrors) {
+            logger.info("The path contains error".red);
+            return
+        }
+
+        let capacite = capaciteMax(parser.parsedCreneaux, args.salle);
+        //console.log(capacite);
+        ;
     })
 
     // SPEC3
