@@ -6,6 +6,7 @@ const CreneauParser = require('./utils/CreneauParser.js');
 
 const findSalles = require('./commands/findSalles');
 const capaciteMax = require("./commands/capaciteMax");
+const quandLibreSalle = require("./commands/quandLibreSalle");
 
 cli
     .version('lespetitsfoufous-sujet-a')
@@ -63,6 +64,24 @@ cli
     //.argument('<fichier>', 'Le fichier à vérifier')
     .action(({args, options, logger}) => {
         // TODO
+    })
+
+    // SPEC4
+    //TODO corriger le souci des créneaux intermédiaires
+    .command('quand-libre-salle', 'Trouver les créneaux libres d\'une salle')
+    .argument('<chemin>', 'Chemin du fichier ou du dossier contenant les créneaux')
+    .argument('<salle>', 'La salle à rechercher')
+    .action(({args, options, logger}) => {
+        let parser = new CreneauParser();
+        parser.parse(args.chemin);
+
+        if (!parser.noErrors) {
+            logger.info("The path contains error".red);
+            return
+        }
+
+        let listeCreneaux = quandLibreSalle(parser.parsedCreneaux, args.salle);
+        console.log(Array.from(listeCreneaux).join(", "));
     })
 
 
