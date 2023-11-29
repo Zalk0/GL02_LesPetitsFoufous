@@ -7,6 +7,7 @@ const CreneauParser = require('./utils/CreneauParser.js');
 const findSalles = require('./commands/findSalles');
 const capaciteMax = require("./commands/capaciteMax");
 const quandLibreSalle = require("./commands/quandLibreSalle");
+const quellesSallesLibres = require("./commands/quellesSallesLibres");
 
 cli
     .version('lespetitsfoufous-sujet-a')
@@ -67,7 +68,7 @@ cli
     })
 
     // SPEC4
-    //TODO corriger le souci des créneaux intermédiaires
+    // TODO patch bug quand les créneaux coupent la journée en 2
     .command('quand-libre-salle', 'Trouver les créneaux libres d\'une salle')
     .argument('<chemin>', 'Chemin du fichier ou du dossier contenant les créneaux')
     .argument('<salle>', 'La salle à rechercher')
@@ -82,6 +83,35 @@ cli
 
         let listeCreneaux = quandLibreSalle(parser.parsedCreneaux, args.salle);
         console.log(Array.from(listeCreneaux).join(", "));
+    })
+
+    //SPEC5
+    .command('quelles-salles-libres', 'Trouver les salles libres pour un créneau donné')
+    .argument('<chemin>', 'Chemin du fichier ou du dossier contenant les créneaux')
+    .argument('<creneau>', 'Le créneau à rechercher (format : J_HH:MM-HH:MM ex: ME_10:00-12:00)')
+    .action(({args, options, logger}) => {
+        let parser = new CreneauParser();
+        parser.parse(args.chemin);
+
+        if (!parser.noErrors) {
+            logger.info("The path contains error".red);
+            return
+        }
+
+        //on vérifie que le créneau est bien au bon format ex: ME_10:00-12:00 ou J_10:00-12:00
+        let regex = new RegExp("^(L|MA|ME|J|V|S)_[0-9]{2}:[0-9]{2}-[0-9]{2}:[0-9]{2}$");
+        if (!regex.test(args.creneau)) {
+            logger.info("The creneau is not at the right format".red);
+            return
+        }
+
+        let listeSalles = Array.from(quellesSallesLibres(parser.parsedCreneaux, args.creneau)).join(", ");
+
+        if (listeSalles === "") {
+            listeSalles = "No room available";
+        }
+        console.log(listeSalles);
+      
     })
 
 
