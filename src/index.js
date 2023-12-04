@@ -29,16 +29,7 @@ cli
     .argument('<chemin>', 'Chemin du fichier ou du dossier contenant les créneaux')
     .argument('<cours>', 'Le cours à rechercher')
     .action(({args, options, logger}) => {
-        let parser = new CreneauParser();
-        parser.parse(args.chemin);
-
-        if (!parser.noErrors) {
-            logger.info("The path contains error".red);
-            return
-        }
-
-        let listeSalles = findSalles(parser.parsedCreneaux, args.cours);
-        console.log(Array.from(listeSalles).join(", "));
+        findSalles(args.cours, args.file);
     })
 
     // SPEC2
@@ -46,16 +37,7 @@ cli
     .argument('<chemin>', 'Chemin du fichier ou du dossier contenant les créneaux')
     .argument('<salle>', 'La salle à rechercher')
     .action(({args, options, logger}) => {
-        let parser = new CreneauParser();
-        parser.parse(args.chemin);
-
-        if (!parser.noErrors) {
-            logger.info("The path contains error".red);
-            return
-        }
-
-        let nbPlaces = capaciteMax(parser.parsedCreneaux, args.salle);
-        console.log(nbPlaces);
+        capaciteMax(args.salle, args.file);
     })
 
     // SPEC3
