@@ -7,6 +7,13 @@ let findSalles = (cours, file) => {
     let creneaux = new EnsembleCreneau();
     console.log(DataParser);
 
+    creneaux.creneaux.forEach(unCreneau => {
+        if (unCreneau.ue.includes(cours)) {
+            result.add(unCreneau.salle);
+        }
+    });
+
+    return result;
 }
 
 module.exports = findSalles;
