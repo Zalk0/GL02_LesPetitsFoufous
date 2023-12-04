@@ -54,8 +54,9 @@ cli
             return
         }
 
-        let nbPlaces = capaciteMax(parser.parsedCreneaux, args.salle);
-        console.log(nbPlaces);
+        let capacite = capaciteMax(parser.parsedCreneaux, args.salle);
+        //console.log(capacite);
+        ;
     })
 
     // SPEC3

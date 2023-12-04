@@ -70,7 +70,7 @@ class CreneauParser {
                 const indexSousGroupe = values[4];
                 const salle = values[5].split("=")[1].replace("//", "");
 
-                let newCreneau = new Creneau(currentCourse, type, horaire, nbPlaces, salle, indexSousGroupe);
+                let newCreneau = new Creneau(currentCourse, type, indexSousGroupe,horaire,salle, nbPlaces);
 
                 this.parsedCreneaux.addCreneau(newCreneau);
             }
