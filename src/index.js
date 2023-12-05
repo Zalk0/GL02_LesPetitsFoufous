@@ -6,6 +6,7 @@ const CreneauParser = require('./utils/CreneauParser.js');
 
 const findSalles = require('./commands/findSalles');
 const capaciteMax = require("./commands/capaciteMax");
+const visuVegalite = require("./commands/visuVegalite");
 
 cli
     .version('lespetitsfoufous-sujet-a')
@@ -57,7 +58,7 @@ cli
         }
 
         let capacite = capaciteMax(parser.parsedCreneaux, args.salle);
-        //console.log(capacite);
+        console.log(capacite);
     })
 
     // SPEC3
@@ -73,6 +74,24 @@ cli
     //.argument('<usager>', "La personne dont on veut l'emploi du temps") //
     .action(({args, options, logger}) => {
         // TODO
+    })
+
+    // SPEC7
+    .command('visualisation', "...") // TODO
+    .argument('<chemin>', 'Chemin du fichier ou du dossier contenant les créneaux')
+    .argument('<ordre>', 'Ordre croissant (c) ou décroissant (d)')
+    .alias('cm')
+    .action(({args, options, logger}) => {
+        let parser = new CreneauParser();
+        parser.parse(args.chemin);
+
+        if (!parser.noErrors) {
+            logger.info("The path contains error".red);
+            return
+        }
+
+        let capacite = visuVegalite(parser.parsedCreneaux, args.ordre);
+        //console.log(capacite);
     })
 
 

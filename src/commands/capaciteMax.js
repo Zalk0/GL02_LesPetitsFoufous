@@ -5,7 +5,6 @@ let capaciteMax = (creneaux, salle) => {
             result = unCreneau.nbPlaces;
         }
     });
-    console.log(result);
     return result;
 }
 
