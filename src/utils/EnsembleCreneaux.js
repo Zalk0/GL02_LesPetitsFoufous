@@ -3,8 +3,14 @@ class EnsembleCreneaux {
         this.creneaux = new Set();
     }
 
-    addCreneau = (unCreneau) => {
-        this.creneaux.add(unCreneau);
+    addCreneau = (unNouveauCreneau) => {
+        this.creneaux.forEach(unCreneau => {
+            if (unNouveauCreneau.estEnConflit(unCreneau)) {
+                console.log("ERREUR : Ce créneau est déjà occupé : " + JSON.stringify(unNouveauCreneau));
+                return
+            }
+        });
+        this.creneaux.add(unNouveauCreneau);
     };
 
     hasCreneau = (unAutreCreneau) => {

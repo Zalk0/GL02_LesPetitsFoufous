@@ -57,15 +57,7 @@ cli
         }
 
         let capacite = capaciteMax(parser.parsedCreneaux, args.salle);
-        //console.log(capacite);
-    })
-
-    // SPEC3
-    .command('verify-emploidutemps', "Vérifier l'emploi du temps")
-    //.argument('<fichier>', 'Le fichier à vérifier')
-    .alias('ve')
-    .action(({args, options, logger}) => {
-        // TODO
+        console.log(capacite);
     })
 
     // SPEC6
