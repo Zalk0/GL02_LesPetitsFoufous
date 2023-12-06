@@ -52,6 +52,22 @@ class EnsembleCreneaux {
         return newInterCreneaux;
     }
 
+    getCreneauxUE = (UE) => {
+        const creneauxUE = new EnsembleCreneaux();
+
+        this.creneaux.forEach(creneau => {
+            if (creneau.ue === UE) {
+                creneauxUE.addCreneau(creneau);
+            }
+        });
+
+        return creneauxUE.creneaux;
+    }
+
+    getCreneaux = () => {
+        return this.creneaux;
+    }
+
 }
 
 module.exports = EnsembleCreneaux;

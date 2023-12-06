@@ -1,8 +1,8 @@
-const fs = require('fs');
-const path = require('path');
+const fs = require("fs");
+const path = require("path");
 
-const Creneau = require('./Creneau');
-const EnsembleCreneaux = require('./EnsembleCreneaux');
+const Creneau = require("./Creneau");
+const EnsembleCreneaux = require("./EnsembleCreneaux");
 
 class CreneauParser {
     constructor() {
@@ -70,7 +70,7 @@ class CreneauParser {
                 const indexSousGroupe = values[4];
                 const salle = values[5].split("=")[1].replace("//", "");
 
-                let newCreneau = new Creneau(currentCourse, type, indexSousGroupe,horaire,salle, nbPlaces);
+                let newCreneau = new Creneau(currentCourse, type, indexSousGroupe, horaire, salle, nbPlaces);
 
                 this.parsedCreneaux.addCreneau(newCreneau);
             }

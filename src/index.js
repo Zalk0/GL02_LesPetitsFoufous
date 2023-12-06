@@ -1,21 +1,22 @@
-const fs = require('fs');
-const colors = require('colors');
-const cli = require('@caporal/core').default;
+const fs = require("fs");
+const colors = require("colors");
+const cli = require("@caporal/core").default;
 
-const CreneauParser = require('./utils/CreneauParser.js');
+const CreneauParser = require("./utils/CreneauParser");
 
-const findSalles = require('./commands/findSalles');
+const findSalles = require("./commands/findSalles");
 const capaciteMax = require("./commands/capaciteMax");
-const visuVegalite = require("./commands/visuVegalite");
 const quandLibreSalle = require("./commands/quandLibreSalle");
 const quellesSallesLibres = require("./commands/quellesSallesLibres");
+const ical = require("./commands/ical");
+const visuVegalite = require("./commands/visuVegalite");
 
 cli
     .version('lespetitsfoufous-sujet-a')
     .version('1.0.0')
 
     // readme
-    .command('readme', 'Display the README.txt file')
+    .command('readme', 'Affiche le fichier README')
     .alias('read')
     .action(({args, options, logger}) => {
         fs.readFile('./README.md', 'utf8', function (err, data) {
@@ -28,7 +29,7 @@ cli
 
 
     // SPEC1
-    .command('find-salles', 'Trouver les salles associées à un cours')
+    .command('find-salles', 'Trouve les salles associées à un cours')
     .argument('<chemin>', 'Chemin du fichier ou du dossier contenant les créneaux')
     .argument('<cours>', 'Le cours à rechercher')
     .alias('fs')
@@ -64,7 +65,7 @@ cli
     })
 
     // SPEC3
-    .command('verify-emploidutemps', "Vérifier l'emploi du temps")
+    .command('verify-emploidutemps', "Vérifie l'emploi du temps")
     //.argument('<fichier>', 'Le fichier à vérifier')
     .alias('ve')
     .action(({args, options, logger}) => {
@@ -73,7 +74,7 @@ cli
 
     // SPEC4
     // TODO patch bug quand les créneaux coupent la journée en 2
-    .command('quand-libre-salle', 'Trouver les créneaux libres d\'une salle')
+    .command('quand-libre-salle', "Trouve les créneaux libres d'une salle")
     .argument('<chemin>', 'Chemin du fichier ou du dossier contenant les créneaux')
     .argument('<salle>', 'La salle à rechercher')
     .action(({args, options, logger}) => {
@@ -90,7 +91,7 @@ cli
     })
 
     //SPEC5
-    .command('quelles-salles-libres', 'Trouver les salles libres pour un créneau donné')
+    .command('quelles-salles-libres', 'Trouve les salles libres pour un créneau donné')
     .argument('<chemin>', 'Chemin du fichier ou du dossier contenant les créneaux')
     .argument('<creneau>', 'Le créneau à rechercher (format : J_HH:MM-HH:MM ex: ME_10:00-12:00)')
     .action(({args, options, logger}) => {
@@ -119,10 +120,21 @@ cli
     })
 
     // SPEC6
-    .command('ical', "Créer un fichier iCal avec l'edt de l'utilisateur")
-    //.argument('<usager>', "La personne dont on veut l'emploi du temps") //
+    .command('ical', "Crée un fichier iCal avec l'edt de l'utilisateur")
+    .argument('<chemin>', 'Chemin du fichier ou du dossier contenant les créneaux')
+    .argument('<usager>', "La personne dont on veut l'emploi du temps")
+    .argument('<date_debut>', 'La date de début du calendrier généré')
+    .argument('<date_fin>', 'La date de fin du calendrier généré')
     .action(({args, options, logger}) => {
-        // TODO
+        const parser = new CreneauParser();
+        parser.parse(args.chemin);
+
+        if (!parser.noErrors) {
+            logger.info("The path contains error".red);
+            return
+        }
+
+        ical(parser);
     })
 
     // SPEC7
