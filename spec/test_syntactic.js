@@ -1,19 +1,19 @@
 describe("Program Syntactic testing of VpfParser", function () {
 
     beforeAll(function () {
-        const POI = require('../POI');
+        const Creneau = require('../src/utils/Creneau.js');
+        const EnsembleCreneaux = require('../src/utils/EnsembleCreneaux.js');
 
-        const VpfParser = require('../VpfParser');
-        this.analyzer = new VpfParser();
+        const CreneauParser = require("./utils/CreneauParser");
+        this.analyzer = new CreneauParser();
 
-        this.pEmptyRating = new POI("Café d'Albert", 48.857735, 2.394987, []);
-        this.pRatings = new POI("Chez Gabin", "48.871794", "2.379538", ["3", "2"]);
+        this.creneau = new Creneau("GL02", "C1", "F1", "L 10:00-12:00", "C002", 96);
 
     });
 
     it("can read a name from a simulated input", function () {
 
-        let input = ["name", "Café d'Albert"];
+        let input = "+BI02\n1,C1,P=25,H=J 8:00-10:00,F1,S=S104//\n1,D1,P=25,H=J 10:00-12:00,F1,S=S104//";
         expect(this.analyzer.name(input)).toBe("Café d'Albert");
 
     });
