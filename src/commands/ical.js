@@ -4,19 +4,19 @@ const readline = require("readline");
 const ical = (parser, usager, date_debut, date_fin) => {
 
     function addEvent(creneau, date, horaire) {
-        let debut = horaire[2].split(":");
+        let debut = horaire[3].split(":");
         date.setHours(debut[0], debut[1]);
         debut = date.toISOString().replace(/[-:]/g, "").slice(0, -5) + "Z";
 
-        let fin = horaire[3].split(":");
+        let fin = horaire[4].split(":");
         date.setHours(fin[0], fin[1]);
         fin = date.toISOString().replace(/[-:]/g, "").slice(0, -5) + "Z";
-        const uid = [creneau.ue, creneau.salle, creneau.horaire].join("-").replace(" ", "_");
+        const uid = [creneau.ue, creneau.salle, creneau.horaire, date.getTime()].join("-").replace(" ", "_");
         data += "BEGIN:VEVENT\n" +
             "UID:" + uid + "\n" +
             "SUMMARY:" + creneau.ue + "\n" +
             "DTSTAMP:" + debut + "\n" +
-            "DTSTART:" + debut + "\n" + // equal to DTSTAMP
+            "DTSTART:" + debut + "\n" +
             "DTEND:" + fin + "\n" +
             "LOCATION:" + creneau.salle + "\n" +
             "ATTENDEE:" + usager + "\n" +
@@ -26,26 +26,26 @@ const ical = (parser, usager, date_debut, date_fin) => {
     function getDay(day) {
         switch (day) {
             case "L":
-                return "Lundi";
+                return ["Lundi", 1];
             case "MA":
-                return "Mardi";
+                return ["Mardi", 2];
             case "ME":
-                return "Mercredi";
+                return ["Mercredi", 3];
             case "J":
-                return "Jeudi";
+                return ["Jeudi", 4];
             case "V":
-                return "Vendredi";
+                return ["Vendredi", 5];
             case "S":
-                return "Samedi";
+                return ["Samedi", 6];
             case "D":
-                return "Dimanche";
+                return ["Dimanche", 0];
         }
     }
 
     function parseHoraire(horaire) {
         horaire = horaire.split(" ");
-        horaire[0] = getDay(horaire[0]);
-        [horaire[2], horaire[3]] = horaire[1].split("-");
+        [horaire[0], horaire[2]] = getDay(horaire[0]);
+        [horaire[3], horaire[4]] = horaire[1].split("-");
         return horaire;
     }
 
@@ -77,8 +77,12 @@ const ical = (parser, usager, date_debut, date_fin) => {
             let i = 0;
             for (let creneau of creneaux) {
                 if (resp === i + 1) {
-                    addEvent(creneau, date_debut, horaires[i]); //TODO: check if not busy & manage date
-                    choixCours();
+                    for (let date = date_debut; date < date_fin; date.setDate(date.getDate() + 1)) {
+                        if (horaires[i][2] === date.getDay()) {
+                            addEvent(creneau, date, horaires[i]);
+                            choixCours();
+                        }
+                    }
                     return;
                 }
                 i++;

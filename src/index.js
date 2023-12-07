@@ -134,12 +134,29 @@ cli
             return
         }
 
-        const debut = [];
-        args.debut.split("/").forEach((dateArg, i) => debut[i] = parseInt(dateArg, 10));
-        const fin = [];
-        args.fin.split("/").forEach((dateArg, i) => fin[i] = parseInt(dateArg, 10));
-        const date_debut = new Date(debut[2], debut[1] - 1, debut[0]);
-        const date_fin = new Date(fin[2], fin[1] - 1, fin[0]);
+        let date_debut;
+        let date_fin;
+        try {
+            const debut = [];
+            args.debut.split("/").forEach((dateArg, i) => debut[i] = parseInt(dateArg, 10));
+            const fin = [];
+            args.fin.split("/").forEach((dateArg, i) => fin[i] = parseInt(dateArg, 10));
+            date_debut = new Date(debut[2], debut[1] - 1, debut[0]);
+            date_fin = new Date(fin[2], fin[1] - 1, fin[0]);
+        } catch (e) {
+            logger.error("Invalid date format".red);
+            return;
+        }
+
+        if (isNaN(date_debut.getTime()) || isNaN(date_fin.getTime())) {
+            logger.error("Invalid date format".red);
+            return;
+        }
+
+        if (date_debut > date_fin) {
+            logger.error("Date de début > à la date de fin".red);
+            return;
+        }
 
         ical(parser, args.usager, date_debut, date_fin);
     })
