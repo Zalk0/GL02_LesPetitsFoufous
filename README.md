@@ -22,5 +22,12 @@ Pour créer cet outil, nous avons utilisé les dépendances suivantes :<br>
 
 ### Explications sur les écarts au cahier des charges
 
+**SPEC1** : <br>
+**SPEC2** : Aucun écarts au cahier des charges<br>
+**SPEC3** : <br>
+**SPEC4** : <br>
+**SPEC5** : <br>
+**SPEC6** : <br>
+**SPEC7** : Pas de boutons pour faire les démarches car notre outil s'utilise en ligne de commandes. Il n'y a pas de filtre pour choisir croissant et décroissant mais il faut l'indiquer dans la commande<br>
 
 
