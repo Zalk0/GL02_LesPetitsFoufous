@@ -69,6 +69,7 @@ cli
     .alias('ve')
     .action(({args, options, logger}) => {
         // TODO
+        console.log(capacite);
     })
 
     // SPEC4

@@ -51,7 +51,7 @@ class CreneauParser {
     parseData(data) {
         const lines = data.split("\n");
 
-        let currentCourse = "";
+        let ue = "";
         let parsingStarted = false;
 
         for (let i = 0; i < lines.length; i++) {
@@ -60,17 +60,17 @@ class CreneauParser {
                 break;
             }
             if (line.startsWith("+") && line !== "+UVUV") {
-                currentCourse = line.substring(1);
+                ue = line.substring(1);
                 parsingStarted = true;
             } else if (parsingStarted && line !== "") {
                 const values = line.split(",");
                 const type = values[1];
-                const nbPlaces = values[2].split("=")[1];
+                const nbPlaces = parseInt(values[2].split("=")[1]);
                 const horaire = values[3].split("=")[1];
                 const indexSousGroupe = values[4];
                 const salle = values[5].split("=")[1].replace("//", "");
 
-                let newCreneau = new Creneau(currentCourse, type, indexSousGroupe,horaire,salle, nbPlaces);
+                let newCreneau = new Creneau(ue, type, indexSousGroupe, horaire, salle, nbPlaces);
 
                 this.parsedCreneaux.addCreneau(newCreneau);
             }
