@@ -1,18 +1,22 @@
-const fs = require('fs');
-const colors = require('colors');
-const cli = require('@caporal/core').default;
+const fs = require("fs");
+const colors = require("colors");
+const cli = require("@caporal/core").default;
 
-const CreneauParser = require('./utils/CreneauParser.js');
+const CreneauParser = require("./utils/CreneauParser");
 
-const findSalles = require('./commands/findSalles');
+const findSalles = require("./commands/findSalles");
 const capaciteMax = require("./commands/capaciteMax");
+const quandLibreSalle = require("./commands/quandLibreSalle");
+const quellesSallesLibres = require("./commands/quellesSallesLibres");
+const ical = require("./commands/ical");
+const visuVegalite = require("./commands/visuVegalite");
 
 cli
     .version('lespetitsfoufous-sujet-a')
     .version('1.0.0')
 
     // readme
-    .command('readme', 'Display the README.txt file')
+    .command('readme', 'Affiche le fichier README')
     .alias('read')
     .action(({args, options, logger}) => {
         fs.readFile('./README.md', 'utf8', function (err, data) {
@@ -25,7 +29,7 @@ cli
 
 
     // SPEC1
-    .command('find-salles', 'Trouver les salles associées à un cours')
+    .command('find-salles', 'Trouve les salles associées à un cours')
     .argument('<chemin>', 'Chemin du fichier ou du dossier contenant les créneaux')
     .argument('<cours>', 'Le cours à rechercher')
     .alias('fs')
@@ -57,22 +61,128 @@ cli
         }
 
         let capacite = capaciteMax(parser.parsedCreneaux, args.salle);
-        //console.log(capacite);
+        console.log(capacite);
     })
 
     // SPEC3
-    .command('verify-emploidutemps', "Vérifier l'emploi du temps")
-    //.argument('<fichier>', 'Le fichier à vérifier')
+    .command('verify-emploidutemps', "Vérifie l'emploi du temps")
+    .argument('<chemin>', 'Chemin du fichier ou du dossier contenant les créneaux')
     .alias('ve')
     .action(({args, options, logger}) => {
-        // TODO
+        let parser = new CreneauParser();
+        parser.parse(args.chemin, true);
+
+        if (!parser.noErrors) {
+            logger.info("The path contains error".red);
+            return
+        }
+    })
+
+    // SPEC4
+    // TODO patch bug quand les créneaux coupent la journée en 2
+    .command('quand-libre-salle', "Trouve les créneaux libres d'une salle")
+    .argument('<chemin>', 'Chemin du fichier ou du dossier contenant les créneaux')
+    .argument('<salle>', 'La salle à rechercher')
+    .action(({args, options, logger}) => {
+        let parser = new CreneauParser();
+        parser.parse(args.chemin);
+
+        if (!parser.noErrors) {
+            logger.info("The path contains error".red);
+            return
+        }
+
+        let listeCreneaux = quandLibreSalle(parser.parsedCreneaux, args.salle);
+        console.log(Array.from(listeCreneaux).join(", "));
+    })
+
+    //SPEC5
+    .command('quelles-salles-libres', 'Trouve les salles libres pour un créneau donné')
+    .argument('<chemin>', 'Chemin du fichier ou du dossier contenant les créneaux')
+    .argument('<creneau>', 'Le créneau à rechercher (format : J_HH:MM-HH:MM ex: ME_10:00-12:00)')
+    .action(({args, options, logger}) => {
+        let parser = new CreneauParser();
+        parser.parse(args.chemin);
+
+        if (!parser.noErrors) {
+            logger.info("The path contains error".red);
+            return
+        }
+
+        //on vérifie que le créneau est bien au bon format ex: ME_10:00-12:00 ou J_10:00-12:00
+        let regex = new RegExp("^(L|MA|ME|J|V|S)_[0-9]{2}:[0-9]{2}-[0-9]{2}:[0-9]{2}$");
+        if (!regex.test(args.creneau)) {
+            logger.info("The creneau is not at the right format".red);
+            return
+        }
+
+        let listeSalles = Array.from(quellesSallesLibres(parser.parsedCreneaux, args.creneau)).join(", ");
+
+        if (listeSalles === "") {
+            listeSalles = "No room available";
+        }
+        console.log(listeSalles);
+
     })
 
     // SPEC6
-    .command('ical', "Créer un fichier iCal avec l'edt de l'utilisateur")
-    //.argument('<usager>', "La personne dont on veut l'emploi du temps") //
+    .command('ical', "Crée un fichier iCal avec l'edt de l'utilisateur")
+    .argument('<chemin>', 'Chemin du fichier ou du dossier contenant les créneaux')
+    .argument('<usager>', "La personne dont on veut l'emploi du temps")
+    .argument('<debut>', 'La date de début du calendrier généré, format : 25/11/2023')
+    .argument('<fin>', 'La date de fin du calendrier généré, format : 25/11/2023')
     .action(({args, options, logger}) => {
-        // TODO
+        const parser = new CreneauParser();
+        parser.parse(args.chemin);
+
+        if (!parser.noErrors) {
+            logger.info("The path contains error".red);
+            return
+        }
+
+        let date_debut;
+        let date_fin;
+        try {
+            const debut = [];
+            args.debut.split("/").forEach((dateArg, i) => debut[i] = parseInt(dateArg, 10));
+            const fin = [];
+            args.fin.split("/").forEach((dateArg, i) => fin[i] = parseInt(dateArg, 10));
+            date_debut = new Date(debut[2], debut[1] - 1, debut[0]);
+            date_fin = new Date(fin[2], fin[1] - 1, fin[0]);
+        } catch (e) {
+            logger.error("Invalid date format".red);
+            return;
+        }
+
+        if (isNaN(date_debut.getTime()) || isNaN(date_fin.getTime())) {
+            logger.error("Invalid date format".red);
+            return;
+        }
+
+        if (date_debut > date_fin) {
+            logger.error("Date de début > à la date de fin".red);
+            return;
+        }
+
+        ical(parser, args.usager, date_debut, date_fin);
+    })
+
+    // SPEC7
+    .command('visualisation', "...") // TODO
+    .argument('<chemin>', 'Chemin du fichier ou du dossier contenant les créneaux')
+    .argument('<ordre>', 'Ordre croissant (c) ou décroissant (d)')
+    .alias('cm')
+    .action(({args, options, logger}) => {
+        let parser = new CreneauParser();
+        parser.parse(args.chemin);
+
+        if (!parser.noErrors) {
+            logger.info("The path contains error".red);
+            return
+        }
+
+        let capacite = visuVegalite(parser.parsedCreneaux, args.ordre);
+        //console.log(capacite);
     })
 
 

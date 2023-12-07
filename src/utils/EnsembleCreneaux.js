@@ -3,8 +3,19 @@ class EnsembleCreneaux {
         this.creneaux = new Set();
     }
 
-    addCreneau = (unCreneau) => {
-        this.creneaux.add(unCreneau);
+    addCreneau = (unNouveauCreneau, showMessages) => {
+        this.creneaux.forEach(unCreneau => {
+            if (unNouveauCreneau.estEnConflit(unCreneau)) {
+                if (showMessages) {
+                    console.log("ERREUR : Ce créneau est déjà occupé : " + JSON.stringify(unNouveauCreneau) + " par ce créneau : " + JSON.stringify(unCreneau));
+                }
+                return
+            }
+        });
+        if (showMessages) {
+            console.log("Ce créneau a bien été ajouté : " + JSON.stringify(unNouveauCreneau));
+        }
+        this.creneaux.add(unNouveauCreneau);
     };
 
     hasCreneau = (unAutreCreneau) => {
@@ -50,6 +61,22 @@ class EnsembleCreneaux {
         });
 
         return newInterCreneaux;
+    }
+
+    getCreneauxUE = (UE) => {
+        const creneauxUE = new EnsembleCreneaux();
+
+        this.creneaux.forEach(creneau => {
+            if (creneau.ue === UE) {
+                creneauxUE.addCreneau(creneau);
+            }
+        });
+
+        return creneauxUE.creneaux;
+    }
+
+    getCreneaux = () => {
+        return this.creneaux;
     }
 
 }
