@@ -7,10 +7,12 @@ const EnsembleCreneaux = require("./EnsembleCreneaux");
 class CreneauParser {
     constructor() {
         this.parsedCreneaux = new EnsembleCreneaux();
+        this.showMessages = false;
         this.noErrors = true;
     }
 
-    parse(path) {
+    parse(path, showMessages) {
+        this.showMessages = showMessages;
         try {
             const stats = fs.statSync(path);
 
@@ -72,7 +74,7 @@ class CreneauParser {
 
                 let newCreneau = new Creneau(ue, type, indexSousGroupe, horaire, salle, nbPlaces);
 
-                this.parsedCreneaux.addCreneau(newCreneau);
+                this.parsedCreneaux.addCreneau(newCreneau, this.showMessages);
             }
         }
 

@@ -66,11 +66,16 @@ cli
 
     // SPEC3
     .command('verify-emploidutemps', "Vérifie l'emploi du temps")
-    //.argument('<fichier>', 'Le fichier à vérifier')
+    .argument('<chemin>', 'Chemin du fichier ou du dossier contenant les créneaux')
     .alias('ve')
     .action(({args, options, logger}) => {
-        // TODO
-        console.log(capacite);
+        let parser = new CreneauParser();
+        parser.parse(args.chemin, true);
+
+        if (!parser.noErrors) {
+            logger.info("The path contains error".red);
+            return
+        }
     })
 
     // SPEC4
