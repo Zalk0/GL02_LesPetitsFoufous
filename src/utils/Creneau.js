@@ -33,13 +33,9 @@ class Creneau {
         heureFin2 = parseInt(heureFin2);
         minuteFin2 = parseInt(minuteFin2);
 
-        if (this.salle == unAutreCreneau.salle && jour1 == jour2 &&
-            (heureDebut1 < heureFin2 || (heureDebut1 == heureFin2 && minuteDebut1 < minuteFin2)) &&
-            (heureFin1 > heureDebut2 || (heureFin1 == heureDebut2 && minuteFin1 > minuteDebut2))) {
-            return true;
-        } else {
-            return false;
-        }
+        return this.salle === unAutreCreneau.salle && jour1 === jour2 &&
+            (heureDebut1 < heureFin2 || (heureDebut1 === heureFin2 && minuteDebut1 < minuteFin2)) &&
+            (heureFin1 > heureDebut2 || (heureFin1 === heureDebut2 && minuteFin1 > minuteDebut2));
     }
 }
 
