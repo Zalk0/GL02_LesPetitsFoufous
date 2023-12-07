@@ -87,7 +87,7 @@ const ical = (parser, usager, date_debut, date_fin) => {
                 }
                 i++;
             }
-        })
+        });
     }
 
     function choixCours() {
