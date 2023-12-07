@@ -70,7 +70,17 @@ class CreneauParser {
                 const nbPlaces = parseInt(values[2].split("=")[1]);
                 const horaire = values[3].split("=")[1];
                 const indexSousGroupe = values[4];
-                const salle = values[5].split("=")[1].replace("//", "");
+                const salle = values[5].split("=")[1].replace(/\/.*/, "");
+                if (line.split("/").length > 3) {
+                    const line_split = line.replace("//", "").split("/");
+                    const values2 = line_split[1].split(",")
+                    const horaire2 = values2[0];
+                    const indexSousGroupe2 = values2[1];
+                    const salle2 = values2[2].split("=")[1]
+
+                    let newCreneau2 = new Creneau(ue, type, indexSousGroupe2, horaire2, salle2, nbPlaces);
+                    this.parsedCreneaux.addCreneau(newCreneau2, this.showMessages);
+                }
 
                 let newCreneau = new Creneau(ue, type, indexSousGroupe, horaire, salle, nbPlaces);
 
