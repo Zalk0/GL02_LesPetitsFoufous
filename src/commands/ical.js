@@ -80,9 +80,9 @@ const ical = (parser, usager, date_debut, date_fin) => {
                     for (let date = date_debut; date < date_fin; date.setDate(date.getDate() + 1)) {
                         if (horaires[i][2] === date.getDay()) {
                             addEvent(creneau, date, horaires[i]);
-                            choixCours();
                         }
                     }
+                    choixCours();
                     return;
                 }
                 i++;
