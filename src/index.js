@@ -123,8 +123,8 @@ cli
     .command('ical', "Crée un fichier iCal avec l'edt de l'utilisateur")
     .argument('<chemin>', 'Chemin du fichier ou du dossier contenant les créneaux')
     .argument('<usager>', "La personne dont on veut l'emploi du temps")
-    .argument('<date_debut>', 'La date de début du calendrier généré')
-    .argument('<date_fin>', 'La date de fin du calendrier généré')
+    .argument('<debut>', 'La date de début du calendrier généré, format : 25/11/2023')
+    .argument('<fin>', 'La date de fin du calendrier généré, format : 25/11/2023')
     .action(({args, options, logger}) => {
         const parser = new CreneauParser();
         parser.parse(args.chemin);
@@ -134,7 +134,14 @@ cli
             return
         }
 
-        ical(parser);
+        const debut = [];
+        args.debut.split("/").forEach((dateArg, i) => debut[i] = parseInt(dateArg, 10));
+        const fin = [];
+        args.fin.split("/").forEach((dateArg, i) => fin[i] = parseInt(dateArg, 10));
+        const date_debut = new Date(debut[2], debut[1] - 1, debut[0]);
+        const date_fin = new Date(fin[2], fin[1] - 1, fin[0]);
+
+        ical(parser, args.usager, date_debut, date_fin);
     })
 
     // SPEC7
