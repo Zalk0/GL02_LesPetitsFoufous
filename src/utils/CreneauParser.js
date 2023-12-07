@@ -1,8 +1,8 @@
-const fs = require('fs');
-const path = require('path');
+const fs = require("fs");
+const path = require("path");
 
-const Creneau = require('./Creneau');
-const EnsembleCreneaux = require('./EnsembleCreneaux');
+const Creneau = require("./Creneau");
+const EnsembleCreneaux = require("./EnsembleCreneaux");
 
 class CreneauParser {
     constructor() {
