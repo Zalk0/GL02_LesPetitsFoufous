@@ -77,7 +77,7 @@ const ical = (parser, usager, date_debut, date_fin) => {
             let i = 0;
             for (let creneau of creneaux) {
                 if (resp === i + 1) {
-                    for (let date = date_debut; date < date_fin; date.setDate(date.getDate() + 1)) {
+                    for (let date = new Date(date_debut); date < date_fin; date.setDate(date.getDate() + 1)) {
                         if (horaires[i][2] === date.getDay()) {
                             addEvent(creneau, date, horaires[i]);
                         }
