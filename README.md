@@ -136,14 +136,9 @@ CRLF = %x0D %x0A
 
 Nous avons aussi décidé d'ajouter l'ue à la spécification dy type Creneau pour la sémantique des données.
 
-Voici les modifications apportés pour chaque SPEC du cahier des charges :
+Voici les modifications apportés à certaines fonctionnalités du cahier des charges :
 
-- **SPEC1** : Aucun écarts au cahier des charges<br>
-- **SPEC2** : Aucun écarts au cahier des charges<br>
-- **SPEC3** : Aucun écarts au cahier des charges<br>
-- **SPEC4** : <br>
-- **SPEC5** : <br>
-- **SPEC6** : Les actions ont été pensés pour être utilisés dans un GUI, il a donc fallu convertir ces actions en CLI. Quand on choisit l'horaire d'un cours, il est possible à tout moment de revenir en arrière en entrant `exit`. La génération du fichier iCal se fait lors du choix du cours en tapant `exit`.
+- **SPEC6** : Les actions ont été pensés pour être utilisés dans un GUI, il a donc fallu convertir ces actions en CLI. Quand on choisit l'horaire d'un cours, il est possible à tout moment de revenir en arrière en entrant `exit`. La génération du fichier iCal se fait lors du choix du cours en tapant `exit`. 
 - **SPEC7** : Pas de boutons pour faire les démarches car notre outil s'utilise en ligne de commandes. Il n'y a pas de filtre pour choisir croissant et décroissant mais il faut l'indiquer dans la commande<br>
 
 ## Liste des contributeurs
