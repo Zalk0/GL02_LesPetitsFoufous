@@ -79,7 +79,6 @@ cli
     })
 
     // SPEC4
-    // TODO patch bug quand les créneaux coupent la journée en 2
     .command('quand-libre-salle', "Trouve les créneaux libres d'une salle")
     .argument('<chemin>', 'Chemin du fichier ou du dossier contenant les créneaux')
     .argument('<salle>', 'La salle à rechercher')
@@ -168,10 +167,10 @@ cli
     })
 
     // SPEC7
-    .command('visualisation', "...") // TODO
+    .command('visualisation', "génère un fichier png de la visualisation des données")
     .argument('<chemin>', 'Chemin du fichier ou du dossier contenant les créneaux')
     .argument('<ordre>', 'Ordre croissant (c) ou décroissant (d)')
-    .alias('cm')
+    .alias('visu')
     .action(({args, options, logger}) => {
         let parser = new CreneauParser();
         parser.parse(args.chemin);

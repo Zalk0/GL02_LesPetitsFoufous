@@ -11,6 +11,7 @@ Pour installer les dépendances nécessaires au bon fonctionnement de l'outil. U
 Pour utiliser l'outil en lui-même, nous utiliserons "node" avec le fichier "index.js" situé dans le dossier "src".
 Toute vos commandes commencerons donc par : `node .`.<br>
 Plusieurs commandes sont mises à votre disposition, vous pouvez avoir plus de détails dessus en allant sur la commande : `node . help`<br>
+Pour la partie icalendar, pour finir d'entrer ses cours, il suffit d'entrer "exit" pour finir l'execution et générer le fichier
 
 ### Dépendances
 
