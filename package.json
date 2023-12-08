@@ -4,7 +4,7 @@
     "description": "Ce projet est à l'initiative de l'Université de la République de Sealand qui souhaite faciliter la gestion de ses locaux et l'organisation des étudiants et des enseignants en leur mettant à disposition un outil numérique commun de suivi d'occupation des salles de cours.",
     "main": "./src/index.js",
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "test": "jasmine"
     },
     "keywords": [],
     "author": "LesPetitsFoufous",
@@ -15,5 +15,8 @@
         "colors": "^1.4.0",
         "vega": "^5.26.1",
         "vega-lite": "^5.16.3"
+    },
+    "devDependencies": {
+        "jasmine": "^5.1.0"
     }
 }

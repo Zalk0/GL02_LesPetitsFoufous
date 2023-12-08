@@ -5,19 +5,20 @@ const capaciteMax = require("./capaciteMax");
 
 let visualisation = (creneaux, ordre) => {
 
-  let roomHours = {}; // Dictionary to store room hours
+  let roomHours = {}; // Dictionnaire pour stocker les heures d'occupation de chaque salle
 
   creneaux.creneaux.forEach(unCreneau => {
       const salle = unCreneau.salle;
       const duree = calculateDuration(unCreneau.horaire);
 
       if (roomHours[salle]) {
-        roomHours[salle] += duree; // Add duration to existing room hours
+        roomHours[salle] += duree; // Ajoute la durée du créneau à la durée totale de la salle
       } else {
-        roomHours[salle] = duree; // Initialize room hours
+        roomHours[salle] = duree; // Initialise la durée totale de la salle
       }
   });
 
+  // Calcule la durée d'un créneau
   function calculateDuration(horaire) {
     let str = horaire.split(" ");
     const heure = str[1];
